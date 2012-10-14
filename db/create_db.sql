@@ -7,6 +7,7 @@
 -- Version du serveur: 5.5.28
 -- Version de PHP: 5.4.7
 
+SET foreign_key_checks = 0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -28,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `student` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `registration_date` datetime NOT NULL DEFAULT NOW(),
+  `registration_date` datetime NOT NULL,
   `lastname` varchar(50) NOT NULL COLLATE utf8_bin,
   `firstname` varchar(50) NOT NULL COLLATE utf8_bin,
   `birthdate` date DEFAULT NULL,
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `scholarized` tinyint(4) DEFAULT NULL,
   `profession` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `scholarized_in_the_country` tinyint(4) DEFAULT NULL,
-  `scholarized_in_a foreing_country` tinyint(4) DEFAULT NULL,
+  `scholarized_in_a foreign_country` tinyint(4) DEFAULT NULL,
   `scholarization_level` tinyint(4) DEFAULT NULL,
   `emergency_contact_lastname` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `emergency_contact_firstname` varchar(45) COLLATE utf8_bin DEFAULT NULL,
@@ -59,11 +60,11 @@ CREATE TABLE IF NOT EXISTS `student` (
   `fk_scholarization_language_id` int(10) unsigned DEFAULT NULL,
   `fk_proposed_level_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY `fk_native_country_id` (`fk_native_country_id`) REFERENCES country(id)),
-  FOREIGN KEY `fk_welcomed_by_teacher_id` (`fk_welcomed_by_teacher_id`) REFERENCES teacher(id)),
-  FOREIGN KEY `fk_mother_tongue_id` (`fk_mother_tongue_id`) REFERENCES languages(id)),
-  FOREIGN KEY `fk_scholarization_language_id` (`fk_scholarization_language_id`) REFERENCES language(id)),
-  FOREIGN KEY `fk_proposed_level_id` (`fk_proposed_level_id`) REFERENCES level(id))
+  FOREIGN KEY `fk_native_country_id` (`fk_native_country_id`) REFERENCES country(id),
+  FOREIGN KEY `fk_welcomed_by_teacher_id` (`fk_welcomed_by_teacher_id`) REFERENCES teacher(id),
+  FOREIGN KEY `fk_mother_tongue_id` (`fk_mother_tongue_id`) REFERENCES languages(id),
+  FOREIGN KEY `fk_scholarization_language_id` (`fk_scholarization_language_id`) REFERENCES language(id),
+  FOREIGN KEY `fk_proposed_level_id` (`fk_proposed_level_id`) REFERENCES level(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 
@@ -95,16 +96,13 @@ CREATE TABLE IF NOT EXISTS `class` (
   `fk_level_id` int(10) unsigned NOT NULL REFERENCES level(id),
   `fk_semester_id` int(10) unsigned NOT NULL REFERENCES semester(id),
   `fk_teacher_id` int(10) unsigned NOT NULL REFERENCES teacher(id),
-  PRIMARY KEY (`id_cours`),
-  KEY `fk_cours_niveaux` (`fk_id_niveau`),
-  KEY `fk_cours_sessions` (`fk_id_session`),
-  KEY `fk_cours_formateurs` (`fk_id_formateur`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `delegations`
+-- Structure de la table `organization_branch`
 --
 
 CREATE TABLE IF NOT EXISTS `organization_branch` (
@@ -121,15 +119,13 @@ CREATE TABLE IF NOT EXISTS `organization_branch` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `est_inscrit_a`
+-- Structure de la table `enrolled`
 --
 
 CREATE TABLE IF NOT EXISTS `enrolled` (
-  `fk_student_id` int(10) unsigned NOT NULL,
-  `fk_class_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`fk_student_id`,`fk_class_id`),
-  KEY `fk_apprenants_has_cours_apprenants` (`fk_id_apprenant`),
-  KEY `fk_apprenants_has_cours_cours` (`fk_id_cours`)
+  `fk_student_id` int(10) unsigned NOT NULL REFERENCES student(id),
+  `fk_class_id` int(10) unsigned NOT NULL REFERENCES class(id),
+  PRIMARY KEY (`fk_student_id`,`fk_class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -150,10 +146,10 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `password` varchar(50) COLLATE utf8_bin NOT NULL,
   `registration_date` datetime NOT NULL,
   `last_connection_date` datetime DEFAULT NULL,
-  `fk_id_role` int(11) NOT NULL REFERENCES roles(id),
+  `fk_role_id` int(11) NOT NULL REFERENCES roles(id),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=5 ;
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -161,13 +157,13 @@ CREATE TABLE IF NOT EXISTS `teacher` (
 -- Structure de la table `langues`
 --
 
-CREATE TABLE IF NOT EXISTS `languages` (
+CREATE TABLE IF NOT EXISTS `language` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `alternative_names` varchar(150) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=60 ;
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -180,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `class_level` (
   `label` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `html_color_code` varchar(7) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `label` (`label`),
+  UNIQUE KEY `label` (`label`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -190,11 +186,9 @@ CREATE TABLE IF NOT EXISTS `class_level` (
 --
 
 CREATE TABLE IF NOT EXISTS `speaks` (
-  `fk_language_id` int(10) unsigned NOT NULL,
-  `fk_student_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`fk_language_id`,`fk_student_id`),
-  KEY `fk_langues_has_apprenants_langues` (`fk_id_langue`),
-  KEY `fk_langues_has_apprenants_apprenants` (`fk_id_apprenant`)
+  `fk_language_id` int(10) unsigned NOT NULL REFERENCES language(id),
+  `fk_student_id` int(10) unsigned NOT NULL REFERENCES student(id),
+  PRIMARY KEY (`fk_language_id`,`fk_student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -204,11 +198,11 @@ CREATE TABLE IF NOT EXISTS `speaks` (
 --
 
 CREATE TABLE IF NOT EXISTS `country` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `label` varchar(50) COLLATE utf8_bin NOT NULL,
   `iso_code` varchar(3) CHARACTER SET latin1 NOT NULL,
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id_pays`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=248 ;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -222,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `label` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `code` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -251,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `class_session` (
   `fk_class_id` int(10) unsigned NOT NULL REFERENCES class(id),
   `fk_session_teacher_id` int(10) unsigned NOT NULL REFERENCES teacher(id),
   `fk_summary_teacher_id` int(10) unsigned NOT NULL REFERENCES teacher(id),
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -280,3 +274,16 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `fk_teacher_id` int(10) unsigned NOT NULL REFERENCES teacher(id),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+
+--
+-- Structure de la table `commented`
+--
+
+CREATE TABLE IF NOT EXISTS `commented` (
+`fk_student_id` int(10) unsigned NOT NULL REFERENCES student(id),
+`fk_teacher_id` int(10) unsigned NOT NULL REFERENCES teacher(id),
+  PRIMARY KEY (`fk_student_id`, `fk_teacher_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+
+
+SET foreign_key_checks = 1;
