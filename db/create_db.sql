@@ -83,10 +83,10 @@ CREATE TABLE IF NOT EXISTS `attended` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `class`
+-- Structure de la table `course`
 --
 
-CREATE TABLE IF NOT EXISTS `class` (
+CREATE TABLE IF NOT EXISTS `course` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `day_of_week` tinyint(4) NOT NULL DEFAULT '1',
   `start_time` time NOT NULL,
@@ -124,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `organization_branch` (
 
 CREATE TABLE IF NOT EXISTS `enrolled` (
   `fk_student_id` int(10) unsigned NOT NULL REFERENCES student(id),
-  `fk_class_id` int(10) unsigned NOT NULL REFERENCES class(id),
-  PRIMARY KEY (`fk_student_id`,`fk_class_id`)
+  `fk_course_id` int(10) unsigned NOT NULL REFERENCES course(id),
+  PRIMARY KEY (`fk_student_id`,`fk_course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
