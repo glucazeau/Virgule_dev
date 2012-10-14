@@ -1,0 +1,5 @@
+- Commit to local repository
+git commit
+
+- Commit (push) to remote repository
+git push 

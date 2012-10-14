@@ -1,0 +1,10 @@
+src/<Project>/Bundle/<BundleName>:
+
+./Controller: processing actions (read data, create, delete etc.)
+./Entity: Simple PHP objects
+./Form: 
+./Repository: to extend basics ORM queries
+./Resources
+    ./config: bundle configuration
+    ./translations: 
+    ./views: templates
