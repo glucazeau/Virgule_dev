@@ -1,85 +1,10 @@
-Usage:
-  symfony [options] task_name [arguments]
+- Generate mapping from the database:
+php app/console doctrine:mapping:convert xml ./src/Virgule/Bundle/MainBundle/Resources/config/doctrine/metadata/orm --from-database --force
+- Generate entities
+ php app/console doctrine:mapping:import VirguleMainBundle annotation
 
-Options:
-  --help                   -H  Display this help message.
-  --quiet                  -q  Do not log messages to standard output.
-  --trace                  -t  Turn on invoke/execute tracing, enable full backtrace.
-  --version                -V  Display the program version.
-  --color                      Forces ANSI color output.
-  --xml                        To output help as XML
+- Generate CRUD controller
+php app/console generate:doctrine:crud --entity=VirguleMainBundle:Teacher --format=annotation --with-write --no-interaction
 
-Available tasks:
-  :help                        Displays help for a task (h)
-  :list                        Lists tasks
-app
-  :routes                      Displays current routes for an application
-cache
-  :clear                       Clears the cache (cc, clear-cache)
-configure
-  :author                      Configure project author
-  :database                    Configure database DSN
-doctrine
-  :build                       Generate code based on your schema
-  :build-all                   Generates Doctrine model, SQL and initializes the database (doctrine-build-all)
-  :build-all-load              Generates Doctrine model, SQL, initializes database, and loads fixtures data (doctrine-build-all-load)
-  :build-all-reload            Generates Doctrine model, SQL, initializes database, and load data (doctrine-build-all-reload)
-  :build-all-reload-test-all   Generates Doctrine model, SQL, initializes database, load data and run all tests (doctrine-build-all-reload-test-all)
-  :build-db                    Creates database for current model (doctrine-build-db)
-  :build-filters               Creates filter form classes for the current model
-  :build-forms                 Creates form classes for the current model
-  :build-model                 Creates classes for the current model (doctrine-build-model)
-  :build-schema                Creates a schema from an existing database (doctrine-build-schema)
-  :build-sql                   Creates SQL for the current model (doctrine-build-sql)
-  :clean-model-files           Delete all generated model classes for models which no longer exist in your YAML schema (doctrine:clean)
-  :create-model-tables         Drop and recreate tables for specified models.
-  :data-dump                   Dumps data to the fixtures directory (doctrine-dump-data)
-  :data-load                   Loads YAML fixture data (doctrine-load-data)
-  :delete-model-files          Delete all the related auto generated files for a given model name.
-  :dql                         Execute a DQL query and view the results (doctrine-dql)
-  :drop-db                     Drops database for current model (doctrine-drop-db)
-  :generate-admin              Generates a Doctrine admin module
-  :generate-migration          Generate migration class (doctrine-generate-migration)
-  :generate-migrations-db      Generate migration classes from existing database connections (doctrine-generate-migrations-db, doctrine-gen-migrations-from-db)
-  :generate-migrations-diff    Generate migration classes by producing a diff between your old and new schema.
-  :generate-migrations-models  Generate migration classes from an existing set of models (doctrine-generate-migrations-models, doctrine-gen-migrations-from-models)
-  :generate-module             Generates a Doctrine module (doctrine-generate-crud, doctrine:generate-crud)
-  :generate-module-for-route   Generates a Doctrine module for a route definition
-  :insert-sql                  Inserts SQL for current model (doctrine-insert-sql)
-  :migrate                     Migrates database to current/specified version (doctrine-migrate)
-  :rebuild-db                  Creates database for current model (doctrine-rebuild-db)
-  :reload-data                 Reloads databases and fixtures for your project (doctrine-reload-data)
-generate
-  :app                         Generates a new application (init-app)
-  :module                      Generates a new module (init-module)
-  :project                     Generates a new project (init-project)
-  :task                        Creates a skeleton class for a new task
-i18n
-  :extract                     Extracts i18n strings from php files
-  :find                        Finds non "i18n ready" strings in an application
-log
-  :clear                       Clears log files (log-purge)
-  :rotate                      Rotates an application log files (log-rotate)
-plugin
-  :add-channel                 Add a new PEAR channel
-  :install                     Installs a plugin (plugin-install)
-  :list                        Lists installed plugins (plugin-list)
-  :publish-assets              Publishes web assets for all plugins
-  :uninstall                   Uninstalls a plugin (plugin-uninstall)
-  :upgrade                     Upgrades a plugin (plugin-upgrade)
-project
-  :clear-controllers           Clears all non production environment controllers (clear-controllers)
-  :deploy                      Deploys a project to another server (sync)
-  :disable                     Disables an application in a given environment (disable)
-  :enable                      Enables an application in a given environment (enable)
-  :optimize                    Optimizes a project for better performance
-  :permissions                 Fixes symfony directory permissions (permissions, fix-perms)
-  :send-emails                 Sends emails stored in a queue
-  :upgrade1.3                  Upgrade a symfony project to the 1.3 symfony release (from 1.2)
-symfony
-  :test                        Launches the symfony test suite
-test
-  :all                         Launches all tests (test-all)
-  :coverage                    Outputs test code coverage
-  :functional                  Launches functional tests (test-functional)
-  :unit                        Launches unit tests (test-unit)
+- Generate Bundle
+php app/console generate:bundle --namespace=Vigule/SecurityBundle --format=annotations
