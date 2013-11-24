@@ -1,0 +1,7 @@
+Migration
+
+1. Get dump
+2. Load App fixtures on new database:
+sf doctrine:fixtures:load --fixtures=./src/Virgule/Bundle/MainBundle/DataFixtures/ORM/App
+3. Execute before.sql
+4. Run Talend script
