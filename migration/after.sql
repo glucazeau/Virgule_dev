@@ -5,5 +5,7 @@ UPDATE course c set alternate_enddate = '2013-09-01' WHERE c.id IN (118, 119, 12
 
 INSERT INTO teacher_course (course_id, teacher_id) VALUES (124, 76);
 
+DELETE FROM comment WHERE comment = '';
+
 #DELETE FROM course WHERE id = '122';
 SET foreign_key_checks = 1; 
