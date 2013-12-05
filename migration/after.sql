@@ -14,6 +14,7 @@ UPDATE student set cellphone_number = "" WHERE cellphone_number = "0";
 
 UPDATE teacher SET enabled = 1, expired = 0, locked = 0, credentials_expired = 0 WHERE id IN (6, 73, 50, 75, 67, 76, 45, 72, 71, 51, 63, 53, 52, 68, 62, 74, 5, 64, 77, 70, 1);
 
+UPDATE student SET registration_date = '1970-01-01' WHERE registration_date = '0000-00-00';
 
 #DELETE FROM course WHERE id = '122';
 SET foreign_key_checks = 1; 
