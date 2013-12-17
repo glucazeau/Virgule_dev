@@ -1,5 +1,6 @@
-UPDATE teacher SET password = 'TVrUoGrkY6ZCWXmREnTj7IOgj4BhiVR2itK6kBbiyXYqO4PZy5GNo9o2/2iTKz8fl67IaL6/8ne/8TBFm3vPPQ==';
-UPDATE teacher SET salt = '5fg4dtts24cgo8o0cg804gwowo4okg4';
+UPDATE teacher SET password = 'f07a8c01ca91605714f81222683c24aeef0c113bcd07ea726f759f126f8cc60ce210bd19fe25051f76c1a768720214056cdd0b6edff3b73aee93cc966743fa8a';
+UPDATE teacher SET salt = '4m4f1jiqk204k0ck0wog8k4oc8swscg';
+UPDATE teacher SET fk_role_id = 3 WHERE id = '51'; 
 
 UPDATE course c set fk_semester = '13' WHERE c.id IN (118, 119, 121, 129);
 
