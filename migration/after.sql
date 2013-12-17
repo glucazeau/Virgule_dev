@@ -1,4 +1,6 @@
-UPDATE teacher SET password = 'password';
+UPDATE teacher SET password = 'TVrUoGrkY6ZCWXmREnTj7IOgj4BhiVR2itK6kBbiyXYqO4PZy5GNo9o2/2iTKz8fl67IaL6/8ne/8TBFm3vPPQ==';
+UPDATE teacher SET salt = '5fg4dtts24cgo8o0cg804gwowo4okg4';
+
 UPDATE course c set fk_semester = '13' WHERE c.id IN (118, 119, 121, 129);
 
 # Update classroom for the second class found with same day and hours
